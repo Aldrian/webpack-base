@@ -1,8 +1,8 @@
 {
-  "name": "webpack-base",
-  "version": "1.1.0",
-  "description": "Cher Ami boilerplate for javascript projects",
-  "author": "Cher Ami",
+  "name": "test-docker",
+  "version": "0.1.0",
+  "description": "",
+  "author": "julienb",
   "license": "MIT",
   "main": "src/index.tsx",
   "keywords": [

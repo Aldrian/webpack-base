@@ -1,5 +1,5 @@
 # values auto-commented during first setup
-config/install.config.js
+# config/install.config.js
 
 # Output application depend of project
 dist

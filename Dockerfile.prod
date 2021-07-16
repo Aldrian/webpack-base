@@ -1,0 +1,13 @@
+# https://www.yld.io/blog/deploy-create-react-app-with-docker-and-ngnix/
+FROM node:13.12.0-alpine as build
+WORKDIR /app
+COPY package*.json /app/
+RUN npm install
+COPY ./ /app/
+RUN npm run build
+
+FROM nginx:alpine
+COPY --from=build /app/build/ /var/www
+COPY --from=build-stage /nginx.conf /etc/nginx/nginx.conf
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
