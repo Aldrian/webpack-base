@@ -1,10 +1,14 @@
 version: "3.8"
 services:
   client:
+    env_file:
+      - ./.env
+    environment:
+      - NODE_ENV=development
     stdin_open: true
     build:
       context: .
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile.client.dev
     ports:
       - "3000:3000"
     volumes:
