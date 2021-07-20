@@ -9,6 +9,9 @@ Files.setVerbose(false)
   CLICommands.add("dev", (options, args) => {
     require("./dev").dev()
   })
+  CLICommands.add("devDocker", (options, args) => {
+    require("./dev").devDocker()
+  })
   CLICommands.add("build", (options, args) => {
     require("./build").build()
   })

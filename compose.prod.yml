@@ -6,6 +6,7 @@ services:
       - .env.production
     environment:
       - NODE_ENV=production
+    image: ${APP_NAME}-client:${IMAGE_TAG}
     build:
       context: .
       dockerfile: Dockerfile.client.prod

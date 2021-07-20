@@ -117,6 +117,54 @@ const _startDevServer = async (closeServerAfterFirstBuild = false) => {
   })
 }
 
+/**
+ * Start docker compose in dev mode
+ * @returns {Promise<void>}
+ * @private
+ */
+const _spawnCompose = async () => {
+  const compose = require("docker-compose")
+  const portFinderSync = require("portfinder-sync")
+  const fs = require("fs")
+  const util = require("util")
+  const writeFile = util.promisify(fs.writeFile)
+  const path = require("path")
+  const appDir = path.dirname(require.main.filename)
+
+  const projectName = require("../../../package.json").name
+  const imageTag = "dev"
+
+  let configFile = `
+  version: "3.8"
+  services:`
+  // Has client ?
+  if (true) {
+    configFile += `
+    client:
+      env_file:
+        - .env
+      environment:
+        - NODE_ENV=development
+        - CHOKIDAR_USEPOLLING="true"
+      stdin_open: true
+      image: ${projectName}-client:${imageTag}
+      build:
+        context: .
+        dockerfile: Dockerfile.client.dev
+      ports:
+        - "${portFinderSync.getPort(3000)}:${portFinderSync.getPort(3000)}"
+      volumes:
+        - "/app/node_modules"
+        - "./:/app"
+    `
+  }
+  await writeFile(`${appDir}/../../docker-compose.yml`, configFile)
+  return compose.upAll({
+    cwd: `${appDir}/../../`,
+    log: true,
+  })
+}
+
 module.exports = {
   dev: async (closeServerAfterFirstBuild = false) => {
     clean()
@@ -124,6 +172,14 @@ module.exports = {
     try {
       return await _startDevServer(closeServerAfterFirstBuild)
     } catch (e) {
+      throw new Error("dev task failed")
+    }
+  },
+  devDocker: async () => {
+    try {
+      return await _spawnCompose()
+    } catch (e) {
+      console.error(e)
       throw new Error("dev task failed")
     }
   },
