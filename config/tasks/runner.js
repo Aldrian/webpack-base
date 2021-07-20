@@ -15,6 +15,9 @@ Files.setVerbose(false)
   CLICommands.add("build", (options, args) => {
     require("./build").build()
   })
+  CLICommands.add("buildDocker", (options, args) => {
+    require("./build").buildDocker()
+  })
   CLICommands.add("clean", (options, args) => {
     require("./clean").clean()
   })

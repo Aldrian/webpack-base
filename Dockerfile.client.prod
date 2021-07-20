@@ -4,7 +4,7 @@ ENV PATH /app/node_modules/.bin:$PATH
 COPY package*.json /app
 RUN npm install 
 COPY . /app
-RUN npm run build-docker
+RUN NODE_ENV=production env-cmd --no-override -f .env.production node config/tasks/runner.js build
 
 # production environment
 FROM nginx:stable-alpine
