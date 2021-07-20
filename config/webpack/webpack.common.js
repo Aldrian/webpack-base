@@ -10,7 +10,6 @@ const CopyWebpackPlugin = require("copy-webpack-plugin")
 const path = require("path")
 
 const APP_BASE = process.env.APP_BASE
-console.log(process.env)
 
 /**
  * Common Webpack Configuration
